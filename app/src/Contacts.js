@@ -22,13 +22,34 @@ const Contacts = () => {
   );
 };
 
-const ContactList = ({ contacts }) => (
-  <ul>
-    {contacts.map(({ id, name, phone, email, notes }) => (
-      <li key={id}>{contacts}</li>
-    ))}
-  </ul>
-);
+const ContactList = ({ contacts }) => {
+  return (
+    <>
+      <h1 className="mt-5">Contact List</h1>
+      <table className="table table-striped mt-5">
+        <thead className="table m-auto thead-dark">
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          {/*** contact list will go here */}
+          {contacts.map((contact) => (
+            <tr key={contact.id}>
+              <td>{contact.name}</td>
+              <td>{contact.email}</td>
+              <td>{contact.phone}</td>
+              <td>{contact.notes}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </>
+  );
+};
 
 const AddContact = ({ addContact }) => {
   const [contact, setContact] = React.useState([]);
