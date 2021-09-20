@@ -2,11 +2,21 @@ import dotenv from "dotenv";
 import pgp from "pg-promise";
 
 const db = initDb();
+//function to query all contacts from contacts table
+//db.any executes a query that can return any number of rows.When 1 or more rows are returned, it resolves with the array of rows.
+export const getContacts = () => db.any("SELECT * FROM contacts");
 
-export const getTasks = () => db.any("SELECT * FROM tasks");
+//function to ADD/CREATE a contact
+export const addContact = (name, email, phone, notes) =>
+  db.one(
+    "INSERT INTO contacts(name, email, phone, notes) VALUES(${name} ${email} ${phone} ${notes}) RETURNING *",
+    { name, email, phone, notes },
+  );
 
-export const addTask = (name) =>
-  db.one("INSERT INTO tasks(name) VALUES(${name}) RETURNING *", { name });
+//get ONE contact
+//not much different from get all but speicify params in route.
+export const getOneContact = () =>
+  db.any("SELECT * FROM contacts WHERE name = ${name}");
 
 function initDb() {
   let connection;
