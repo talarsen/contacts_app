@@ -16,7 +16,6 @@ contactRouter.get("/", async (req, res) => {
 
 //get A contact
 //not much different from get all but speicify params in route.
-
 contactRouter.get("/", async (req, res) => {
   try {
     const contact = await db.getOneContact();
@@ -30,7 +29,15 @@ contactRouter.get("/", async (req, res) => {
 contactRouter.use(express.json());
 contactRouter.post("/", async (request, response) => {
   //possible change request.body.name to just request.body
-  const contact = await db.addContact(request.body.name);
+  console.log(request.body);
+  const contact = await db.addContact(request.body);
+  response.status(201).json(contact);
+});
+
+//edit a contact
+contactRouter.put("/", async (request, response) => {
+  console.log(request.body);
+  const contact = await db.editContact(request.body);
   response.status(201).json(contact);
 });
 

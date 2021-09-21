@@ -7,10 +7,16 @@ const db = initDb();
 export const getContacts = () => db.any("SELECT * FROM contacts");
 
 //function to ADD/CREATE a contact
-export const addContact = (name, email, phone, notes) =>
+export const addContact = ({ name, email, phone, notes }) =>
   db.one(
-    "INSERT INTO contacts(name, email, phone, notes) VALUES(${name} ${email} ${phone} ${notes}) RETURNING *",
+    "INSERT INTO contacts(name, email, phone, notes) VALUES(${name}, ${email}, ${phone}, ${notes}) RETURNING *",
     { name, email, phone, notes },
+  );
+
+export const editContact = ({ id, name, email, phone, notes }) =>
+  db.one(
+    "UPDATE contacts SET name = ${name}, email = ${email}, phone = ${phone}, notes = ${notes} WHERE id = ${id} RETURNING * ",
+    { id, name, email, phone, notes },
   );
 
 //get ONE contact

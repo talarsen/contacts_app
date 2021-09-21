@@ -15,3 +15,6 @@ INSERT INTO contacts(name, email, phone, notes) VALUES('Tommy Caldwell', 'tomste
 
 INSERT INTO contacts(name, email, phone, notes) VALUES('Adam Ondra', 'sportclimber@gmail.com', '555-555-3333', 'SportClimber Extraordinaire');
 
+UPDATE contacts SET name = `${name}`, email = `${email}`, phone = `${phone}`, notes = `${notes}`
+  WHERE id = ${contact.id} 
+  RETURNING *;

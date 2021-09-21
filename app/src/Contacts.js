@@ -1,6 +1,9 @@
 import * as React from "react";
 
+import DetailContact from "./DetailContact";
+import EditContact from "./EditContact";
 import * as apiClient from "./apiClient";
+
 //create component to load ALL contacts
 const Contacts = () => {
   //set state for each contact
@@ -16,44 +19,107 @@ const Contacts = () => {
 
   return (
     <section>
-      <ContactList contacts={contacts} />
-      <AddContact {...{ addContact }} />
+      <ContactList contacts={contacts} loadContacts={loadContacts} />
+      <AddContact addContact={addContact} />
     </section>
   );
 };
 
-const ContactList = ({ contacts }) => (
-  <ul>
-    {contacts.map(({ id, name, phone, email, notes }) => (
-      <li key={id}>{contacts}</li>
-    ))}
-  </ul>
-);
+const ContactList = ({ contacts, loadContacts }) => {
+  return (
+    <>
+      <h1 className="mt-2">Contact List</h1>
+      <table className="table table-striped">
+        <thead className="table thead-dark">
+          <tr>
+            <th scope="col">Edit</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Notes</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          {/*** contact list will go here */}
+          {contacts.map((contact) => (
+            <>
+              <tr key={contact.id}>
+                <td>
+                  <EditContact contact={contact} loadContacts={loadContacts} />
+                </td>
+                <td>{contact.name}</td>
+                <td>{contact.email}</td>
+                <td>{contact.phone}</td>
+                <td>{contact.notes}</td>
+                <DetailContact />
+              </tr>
+            </>
+          ))}
+        </tbody>
+      </table>
+    </>
+  );
+};
 
 const AddContact = ({ addContact }) => {
   const [contact, setContact] = React.useState([]);
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [phone, setPhone] = React.useState("");
+  const [notes, setNotes] = React.useState("");
 
   const canAdd = contact !== "";
 
   const onSubmit = (e) => {
     e.preventDefault();
     if (canAdd) {
-      addContact(contact);
+      addContact({ name, email, phone, notes });
       setContact("");
     }
   };
 
   return (
-    <form onSubmit={onSubmit}>
-      <label>
-        New task:{" "}
+    <>
+      <h1 className="my-5 ">Add Contact</h1>
+      <form className="d-flex">
         <input
-          onChange={(e) => setContact(e.currentTarget.value)}
-          value={contact}
+          className="form-conrol"
+          type="text"
+          placeholder="Add Contact Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
-      </label>
-      <button disabled={!canAdd}>Add</button>
-    </form>
+        <input
+          className="email form-conrol"
+          type="text"
+          placeholder="contact@email.com"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          className="form-control"
+          type="text"
+          placeholder="e.g. 555-555-5555"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
+        <input
+          className="form-control"
+          type="text"
+          placeholder="Notes"
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+        />
+        <button
+          disabled={!canAdd}
+          className="btn btn-success"
+          onClick={onSubmit}
+        >
+          Add Contact
+        </button>
+      </form>
+    </>
   );
 };
 
