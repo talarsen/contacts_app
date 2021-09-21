@@ -4,7 +4,7 @@ export const getContacts = () => _get("/api/contacts");
 export const addTask = (name) => _post("/api/tasks", { name });
 
 export const addContact = (name, email, phone, notes) =>
-  _post("/api/tasks", { name, email, phone, notes });
+  _post("/api/contacts", { name, email, phone, notes });
 
 const _get = async (url) => (await fetch(url)).json();
 
