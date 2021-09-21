@@ -16,7 +16,6 @@ contactRouter.get("/", async (req, res) => {
 
 //get A contact
 //not much different from get all but speicify params in route.
-
 contactRouter.get("/", async (req, res) => {
   try {
     const contact = await db.getOneContact();
