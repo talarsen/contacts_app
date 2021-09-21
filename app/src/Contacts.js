@@ -19,13 +19,13 @@ const Contacts = () => {
 
   return (
     <section>
-      <ContactList contacts={contacts} />
-      <AddContact {...{ addContact }} />
+      <ContactList contacts={contacts} loadContacts={loadContacts} />
+      <AddContact addContact={addContact} />
     </section>
   );
 };
 
-const ContactList = ({ contacts }) => {
+const ContactList = ({ contacts, loadContacts }) => {
   return (
     <>
       <h1 className="mt-2">Contact List</h1>
@@ -46,7 +46,7 @@ const ContactList = ({ contacts }) => {
             <>
               <tr key={contact.id}>
                 <td>
-                  <EditContact contact={contact} />
+                  <EditContact contact={contact} loadContacts={loadContacts} />
                 </td>
                 <td>{contact.name}</td>
                 <td>{contact.email}</td>

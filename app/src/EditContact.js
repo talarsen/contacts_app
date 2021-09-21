@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import * as apiClient from "./apiClient";
-const EditContact = ({ contact }) => {
+const EditContact = ({ contact, loadContacts }) => {
   const [name, setName] = useState(contact.name);
   const [email, setEmail] = useState(contact.email);
   const [phone, setPhone] = useState(contact.phone);
@@ -67,13 +67,15 @@ const EditContact = ({ contact }) => {
                 className="btn btn-primary"
                 data-dismiss="modal"
                 onClick={() =>
-                  apiClient.editContact({
-                    id: contact.id,
-                    name,
-                    email,
-                    phone,
-                    notes,
-                  })
+                  apiClient
+                    .editContact({
+                      id: contact.id,
+                      name,
+                      email,
+                      phone,
+                      notes,
+                    })
+                    .then(loadContacts)
                 }
               >
                 Edit
