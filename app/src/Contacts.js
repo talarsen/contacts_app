@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import DetailContact from "./DetailContact";
 import EditContact from "./EditContact";
 import * as apiClient from "./apiClient";
 
@@ -28,27 +29,32 @@ const ContactList = ({ contacts }) => {
   return (
     <>
       <h1 className="mt-2">Contact List</h1>
-      <table className="table table-striped mt-2">
+      <table className="table table-striped">
         <thead className="table thead-dark">
           <tr>
+            <th scope="col">Edit</th>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">Phone</th>
             <th scope="col">Notes</th>
+            <th scope="col">Details</th>
           </tr>
         </thead>
         <tbody>
           {/*** contact list will go here */}
           {contacts.map((contact) => (
-            <tr key={contact.id}>
-              <td>
-                <EditContact />
-              </td>
-              <td>{contact.name}</td>
-              <td>{contact.email}</td>
-              <td>{contact.phone}</td>
-              <td>{contact.notes}</td>
-            </tr>
+            <>
+              <tr key={contact.id}>
+                <td>
+                  <EditContact contact={contact} />
+                </td>
+                <td>{contact.name}</td>
+                <td>{contact.email}</td>
+                <td>{contact.phone}</td>
+                <td>{contact.notes}</td>
+                <DetailContact />
+              </tr>
+            </>
           ))}
         </tbody>
       </table>
@@ -68,7 +74,7 @@ const AddContact = ({ addContact }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (canAdd) {
-      addContact(contact);
+      addContact({ name, email, phone, notes });
       setContact("");
     }
   };
